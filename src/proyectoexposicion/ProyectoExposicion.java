@@ -6,7 +6,7 @@ import java.util.Random;
 // ADMINISTRADOR DE TAREAS
 public class ProyectoExposicion {
 
-    public static void main(String[] args) {
+    public static void main(String[] args, clase2[] tareass) {
         Scanner input = new Scanner(System.in);
         Random rd = new Random();
         
@@ -121,12 +121,11 @@ public class ProyectoExposicion {
                     
                     break;
                     
-                case 3:
-                    // Edicion de la tarea elegida por el usuario
-                    Editartarea.editarTarea(tareas, input);
-                    /// Hacelo en la otra clase Alessandro
-                    
-                    break;
+                 case 3:
+                System.out.println("Editar tarea seleccionada:");
+                editarTarea(tareass, input); // Llamamos al método que edita la tarea.
+                break;
+
                     
                 case 4:
                     // Eliminar tarea
@@ -201,6 +200,46 @@ public class ProyectoExposicion {
        
     
 }
+       public static void editarTarea(clase2[] tareass, Scanner input) {
+    System.out.print("Ingrese el número identificador de la tarea que desea editar -> ");
+    int idTarea = input.nextInt();
+
+    // Validamos si el identificador es válido.
+    if (idTarea >= 0 && idTarea < tareass.length && tareass[idTarea] != null) {
+        clase2 tarea = tareass[idTarea]; // Obtenemos la tarea.
+        input.nextLine(); // Consumimos el salto de línea pendiente.
+
+        System.out.print("Nuevo nombre (actual: " + tarea.obtenerNombreTarea() + ", deja vacío para no cambiar) -> ");
+        String nuevoNombre = input.nextLine();
+        if (!nuevoNombre.isEmpty()) {
+            tarea.actualizarNombreTarea(nuevoNombre);
+        }
+
+        System.out.print("Nueva descripción (actual: " + tarea.obtenerDescripcionTarea() + ", deja vacío para no cambiar) -> ");
+        String nuevaDescripcion = input.nextLine();
+        if (!nuevaDescripcion.isEmpty()) {
+            tarea.actualizarDescripcionTarea(nuevaDescripcion);
+        }
+
+        System.out.print("Nuevo tiempo límite (actual: " + tarea.obtenerLimiteTiempo() + ", formato HH:MM) -> ");
+        String nuevoTiempo = input.nextLine();
+        if (!nuevoTiempo.isEmpty() && validarFormatoHora(nuevoTiempo)) {
+            tarea.actualizarLimiteTiempo(nuevoTiempo);
+        }
+
+        System.out.print("¿Cambiar el estado de la tarea? (PENDIENTE/TERMINADA, actual: " +
+                         (tarea.verificarEstadoTarea() ? "TERMINADA" : "PENDIENTE") + ") [S/N]: ");
+        char cambiarEstado = input.nextLine().toUpperCase().charAt(0);
+        if (cambiarEstado == 'S') {
+            tarea.cambiarEstadoTarea(!tarea.verificarEstadoTarea());
+        }
+
+        System.out.println("Tarea actualizada con éxito.");
+    } else {
+        System.out.println("No hay tarea con ese identificador.");
+    }
+}
+
         public static boolean validarFormatoHora(String tiempo) {
         if (tiempo == null || tiempo.length() != 5 || tiempo.charAt(2) != ':') {
             return false;
