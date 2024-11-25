@@ -10,9 +10,11 @@ import java.util.Scanner;
  *
  * @author aless
  */
+import java.util.Scanner;
+
 public class Editartarea {
-    
-     public static void editarTarea(Clase1[] tareas, Scanner input) {
+
+    public static void editarTarea(clase2[] tareas, Scanner input) {
         System.out.print("Ingrese el número identificador de la tarea que desea editar -> ");
         int idTarea = input.nextInt();
 
@@ -21,47 +23,59 @@ public class Editartarea {
             return;
         }
 
-        Clase1 tarea = tareas[idTarea];
-        System.out.println("Editando la tarea: " + tarea.getNombre_tarea());
+        clase2 tarea = tareas[idTarea];
+        System.out.println("Editando la tarea: " + tarea.obtenerNombreTarea());
 
         input.nextLine(); // Limpiar el buffer
-        System.out.print("Nuevo nombre (actual: " + tarea.getNombre_tarea() + ", deja vacío para no cambiar) -> ");
+        System.out.print("Nuevo nombre (actual: " + tarea.obtenerNombreTarea() + ", deja vacío para no cambiar) -> ");
         String nuevoNombre = input.nextLine();
         if (!nuevoNombre.isEmpty()) {
-            tarea.setNombre_tarea(nuevoNombre);
+            tarea.actualizarNombreTarea(nuevoNombre);
         }
 
-        System.out.print("Nueva descripción (actual: " + tarea.getDescripcion() + ", deja vacío para no cambiar) -> ");
+        System.out.print("Nueva descripción (actual: " + tarea.obtenerDescripcionTarea() + ", deja vacío para no cambiar) -> ");
         String nuevaDescripcion = input.nextLine();
         if (!nuevaDescripcion.isEmpty()) {
-            tarea.setDescripcion(nuevaDescripcion);
+            tarea.actualizarDescripcionTarea(nuevaDescripcion);
         }
 
-        System.out.print("Nuevo tiempo límite (actual: " + tarea.getTiempo_limite() + ", formato HH:MM) -> ");
+        System.out.print("Nuevo tiempo límite (actual: " + tarea.obtenerLimiteTiempo() + ", formato HH:MM) -> ");
         String nuevoTiempo = input.nextLine();
         if (!nuevoTiempo.isEmpty()) {
             while (!validarFormatoHora(nuevoTiempo)) {
                 System.out.print("Formato inválido. Ingresa el tiempo límite nuevamente (HH:MM): ");
                 nuevoTiempo = input.nextLine();
             }
-            tarea.setTiempo_limite(nuevoTiempo);
+            tarea.actualizarLimiteTiempo(nuevoTiempo);
         }
 
         System.out.print("¿Cambiar el estado de la tarea? (PENDIENTE/TERMINADA, actual: " + 
-        (tarea.isEstado() ? "TERMINADA" : "PENDIENTE") + ") [S/N]: ");
+        (tarea.verificarEstadoTarea() ? "TERMINADA" : "PENDIENTE") + ") [S/N]: ");
         char cambiarEstado = input.nextLine().toUpperCase().charAt(0);
         if (cambiarEstado == 'S') {
-            tarea.setEstado(!tarea.isEstado());
+            tarea.cambiarEstadoTarea(!tarea.verificarEstadoTarea());
         }
 
         System.out.println("Tarea actualizada con éxito.");
     }
 
-    // Método para validar el formato de hora HH:MM
-    public static boolean validarFormatoHora(String tiempo) {
-        String regex = "^([01]?\\d|2[0-3]):([0-5]\\d)$";
-        return tiempo.matches(regex);
-    } 
-   
-    
+   public static boolean validarFormatoHora(String tiempo) {
+        if (tiempo == null || tiempo.length() != 5 || tiempo.charAt(2) != ':') {
+            return false;
+        }
+
+        
+        if (!Character.isDigit(tiempo.charAt(0)) || !Character.isDigit(tiempo.charAt(1)) ||
+            !Character.isDigit(tiempo.charAt(3)) || !Character.isDigit(tiempo.charAt(4))) {
+            return false;
+        }
+
+      
+        int horas = (tiempo.charAt(0) - '0') * 10 + (tiempo.charAt(1) - '0');
+        int minutos = (tiempo.charAt(3) - '0') * 10 + (tiempo.charAt(4) - '0');
+
+        
+        return horas >= 0 && horas <= 23 && minutos >= 0 && minutos <= 59;
+    }
 }
+
