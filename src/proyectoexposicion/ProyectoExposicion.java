@@ -17,15 +17,14 @@ public class ProyectoExposicion {
         Clase1[] tareas = new Clase1[5];
         
         int opcion = 0; // Eleccion de accion del usuario
-        for (int i = 0; opcion != 6; i++) {
+        for (int i = 0; opcion != 5; i++) {
             
             System.out.println("OPCIONES");
             System.out.println("1. Nueva tarea");
             System.out.println("2. Mostrar tareas");
             System.out.println("3. Editar tarea");
             System.out.println("4. Eliminar tarea");
-            System.out.println("5. Marcar tarea como hecha");
-            System.out.println("6. Salir / Mostrar lo trabajado");
+            System.out.println("5. Salir / Mostrar lo trabajado");
             
             System.out.print("Ingresa el numero de la opcion -> ");
             opcion = input.nextInt();
@@ -128,7 +127,7 @@ public class ProyectoExposicion {
                     int idEditar = input.nextInt();
 
                     if (idEditar >= 0 && idEditar < tareas.length && tareas[idEditar] != null) {
-                        // Mostrar información actual de la tarea
+                        // Mostrar la información actual de la tarea
                         System.out.println("Tarea seleccionada:");
                         System.out.println("1. Nombre: " + tareas[idEditar].getNombre_tarea());
                         System.out.println("2. Descripción: " + tareas[idEditar].getDescripcion());
@@ -142,7 +141,7 @@ public class ProyectoExposicion {
                         System.out.println("4. Límite de tiempo");
 
                         int campoEditar = input.nextInt();
-                        input.nextLine(); // Limpiar el buffer
+                        input.nextLine(); 
 
                         switch (campoEditar) {
                             case 1:
@@ -225,18 +224,6 @@ public class ProyectoExposicion {
                     
                     break;
                     
-                case 5:
-                    // Marcar tarea como hecha
-                    
-                    // Usamos el método de imprimir y luego le preguntamos al user cual quiere marcar
-                    
-                    // Yo voy a hacer el método para marcarla
-                    
-                    break;
-                    
-                case 6:
-                    break;
-                    
                 default:
                     System.out.println("Opcion no valida");
                     
@@ -248,10 +235,9 @@ public class ProyectoExposicion {
         }
         
         System.out.println("Vuelve pronto");
-        System.out.println("Trabajado hoy");
-        // usar el método de impresion
+
                     
-        // Si nos da tiempo, hcaemos la suma del total de hora trabajadas y lo imprimimos
+       
             
        
     
