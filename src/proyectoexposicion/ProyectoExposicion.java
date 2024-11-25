@@ -54,15 +54,20 @@ public class ProyectoExposicion {
                     tarea_default.setEstado(estado);
                     System.out.println(); // Salto de línea
 
-                    System.out.print("Ingresa limite de tiempo. formato: HH:MM -> "); String tiempo_limite = input.next();
+                    
+                    String tiempo_limite;
+                    do {
+                        System.out.print("Ingresa límite de tiempo en formato HH:MM -> ");
+                        tiempo_limite = input.next();
+
+                        if (!validarFormatoHora(tiempo_limite)) {
+                            System.out.println("Formato incorrect. ejemplo de como ingresarla hora (20:00)");
+                        }
+                    } while (!validarFormatoHora(tiempo_limite));
+
+                    // Una vez validado, asignamos el tiempo límite a la tarea
                     tarea_default.setTiempo_limite(tiempo_limite);
-                    // Alessandro, create el método de validación del formato
-                    if (validarFormatoHora(tiempo_limite)) {
-                    tarea_default.setTiempo_limite(tiempo_limite);
-                       break; // Salimos del bucle si el formato es válido
-                    } else {
-                        System.out.println("Formato inválido. Asegúrate de usar el formato HH:MM (por ejemplo, 14:30).");
-                    }
+
                         
                     // Agregar tarea al array de tareas
                     tareas [i] = new Clase1(nombre_tarea, descripcion, identificador, estado, tiempo_limite);
@@ -118,7 +123,7 @@ public class ProyectoExposicion {
                     
                 case 3:
                     // Edicion de la tarea elegida por el usuario
-                    Clase1.editarTarea(tareas, input);
+                    Editartarea.editarTarea(tareas, input);
                     /// Hacelo en la otra clase Alessandro
                     
                     break;
@@ -193,11 +198,27 @@ public class ProyectoExposicion {
                     
         // Si nos da tiempo, hcaemos la suma del total de hora trabajadas y lo imprimimos
             
-        
+       
+    
+}
+        public static boolean validarFormatoHora(String tiempo) {
+        if (tiempo == null || tiempo.length() != 5 || tiempo.charAt(2) != ':') {
+            return false;
+        }
 
+        
+        if (!Character.isDigit(tiempo.charAt(0)) || !Character.isDigit(tiempo.charAt(1)) ||
+            !Character.isDigit(tiempo.charAt(3)) || !Character.isDigit(tiempo.charAt(4))) {
+            return false;
+        }
+
+      
+        int horas = (tiempo.charAt(0) - '0') * 10 + (tiempo.charAt(1) - '0');
+        int minutos = (tiempo.charAt(3) - '0') * 10 + (tiempo.charAt(4) - '0');
+
+        
+        return horas >= 0 && horas <= 23 && minutos >= 0 && minutos <= 59;
     }
-            public static boolean validarFormatoHora(String tiempo) {
-              String regex = "^([01]?\\d|2[0-3]):([0-5]\\d)$";
-              return tiempo.matches(regex);
-    }
+
+         
 }
